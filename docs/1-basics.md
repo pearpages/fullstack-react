@@ -61,3 +61,20 @@ Inside *ProductList*, we use array’s map() method on Data to setup the variabl
 JavaScript developers have traditionally used workarounds for this behavior, but arrow functions solve the problem by capturing the this value of the enclosing context.
 
 > We will use arrow functions for all anonymous functions.
+
+## State
+
+Whereas props are immutable and owned by a component’s parent, state is mutable and owned by the component.
+
+**this.state** is private to the component and can be updated with this.setState().
+
+As with props, when the state updates the component will re-render itself.
+
+### getInitialState()
+
+Like render(), getInitialState() is a special method on a React component. It is one of several lifecycle methods available. It is executed exactly once during the component lifecycle and defines the initial state of the component.
+
+### componentDidMount()
+
+Just after the component has been created.
+
