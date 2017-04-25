@@ -1,10 +1,33 @@
 const TimersDashboard = React.createClass({
+    // When ToggleableTimerForm is 'open' the form is being displayed
+    // isOpen state
+    // Timer data
+    getInitialState: function () {
+        return {
+            timers: [
+                {
+                    title: 'Practice squat',
+                    project: 'Gym Chores',
+                    id: uuid.v4(),
+                    elapsed: 5456099,
+                    runningSince: Date.now(),
+                }, {
+                    title: 'Bake squash',
+                    project: 'Kitchen Chores',
+                    id: uuid.v4(),
+                    elapsed: 1273998,
+                    runningSince: null,
+                }
+            ]
+        };
+    },
     render: function () {
-        // When ToggleableTimerForm is 'open' the form is being displayed
         return (
             <div className='ui three column centered grid'>
                 <div className='column'>
-                    <EditableTimerList />
+                    <EditableTimerList
+                        timers={this.state.timers}
+                    />
                     <ToggleableTimerForm isOpen={false} />
                 </div>
             </div>
@@ -13,29 +36,29 @@ const TimersDashboard = React.createClass({
 });
 
 const EditableTimerList = React.createClass({
+    // timerproperties state
     render: function () {
+        const timers = this.props.timers.map((timer) => (
+            <EditableTimer
+                key={timer.id}
+                id={timer.id}
+                title={timer.title}
+                project={timer.project}
+                elapsed={timer.elapsed}
+                runningSince={timer.runningSince}
+            />
+        ));
         return (
             <div id='timers'>
-                <EditableTimer
-                    title='Learn React'
-                    project='Web Domination'
-                    elapsed='8986300'
-                    runningSince={null}
-                    editFormOpen={true}
-                />
-                <EditableTimer
-                    title='Learn extreme ironing'
-                    project='Web Domination'
-                    elapsed='3890985'
-                    runningSince={null}
-                    editFormOpen={false}
-                />
+                {timers}
             </div>
         );
     }
 });
 
 const EditableTimer = React.createClass({
+    // editFormOpen state
+    // Timer edit form data
     render: function () {
         if (this.props.editFormOpen) {
             return (
@@ -81,6 +104,7 @@ const TimerForm = React.createClass({
 });
 
 const ToggleableTimerForm = React.createClass({
+    // state of its form visibility data
     render: function () {
         if (this.props.isOpen) {
             return (
