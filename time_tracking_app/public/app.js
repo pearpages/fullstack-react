@@ -59,10 +59,16 @@ const EditableTimerList = React.createClass({
 const EditableTimer = React.createClass({
     // editFormOpen state
     // Timer edit form data
+    getInitialState: function () {
+        return {
+            editFormOpen: false,
+        };
+    },
     render: function () {
-        if (this.props.editFormOpen) {
+        if (this.state.editFormOpen) {
             return (
                 <TimerForm
+                    id={this.props.id}
                     title={this.props.title}
                     project={this.props.project}
                 />
@@ -70,6 +76,7 @@ const EditableTimer = React.createClass({
         } else {
             return (
                 <Timer
+                    id={this.props.id}
                     title={this.props.title}
                     project={this.props.project}
                     elapsed={this.props.elapsed}
@@ -81,6 +88,7 @@ const EditableTimer = React.createClass({
 });
 
 const TimerForm = React.createClass({
+    // stateless
     render: function () {
         const submitText = this.props.title ? 'Update' : 'Create';
         return (
@@ -105,21 +113,35 @@ const TimerForm = React.createClass({
 
 const ToggleableTimerForm = React.createClass({
     // state of its form visibility data
+    getInitialState: function () {
+        return {
+            isOpen: false,
+        };
+    },
+    handleFormOpen: function () {
+        this.setState({ isOpen: true });
+    },
     render: function () {
-        if (this.props.isOpen) {
+        if (this.state.isOpen) {
             return (
                 <TimerForm />
             );
         } else {
             return (
-                <div className='ui basic content center aligned segment'> <button className='ui basic button icon'>
-                    <i className='plus icon'></i> </button>
+                <div className='ui basic content center aligned segment'>
+                    <button
+                        className='ui basic button icon'
+                        onClick={this.handleFormOpen}
+                    >
+                        <i className='plus icon'></i>
+                    </button>
                 </div>);
         }
     }
 });
 
 const Timer = React.createClass({
+    // stateless
     render: function () {
         const elapsedString = helpers.renderElapsedString(this.props.elapsed);
         return (

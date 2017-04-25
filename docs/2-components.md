@@ -38,3 +38,7 @@ Again, we specify *with ReactDOM#render()* which React component we want to rend
 that need the state in the hierarchy).
 * Either the common owner or another component higher up in the hierarchys hould own the state.
 * If you can’t find a component where it makes sense to own the state, create a new component simply for holding the state and add it somewhere in the hierarchy above the common owner component.
+
+## Props vs State
+
+Remember, props are state’s immutable accomplice. What existed as mutable state in Timers-Dashboard is passed down as immutable props to EditableTimerList.
