@@ -1,5 +1,11 @@
 # Time Tracking App
 
+## Run
+
+```bash
+npm start
+```
+
 ## Components
 
 ![components](./docs/images/components.png "Components")

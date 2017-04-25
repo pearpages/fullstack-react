@@ -1,4 +1,12 @@
 window.helpers = (function () {
+
+    return {
+        millisecondsToHuman,
+        newTimer,
+        findById,
+        renderElapsedString,
+    };
+
     function newTimer(attrs = {}) {
         const timer = {
             title: attrs.title || 'Timer',
@@ -47,10 +55,4 @@ window.helpers = (function () {
         return padded;
     }
 
-    return {
-        millisecondsToHuman,
-        newTimer,
-        findById,
-        renderElapsedString,
-    };
 }());
