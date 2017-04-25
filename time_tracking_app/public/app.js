@@ -44,12 +44,12 @@ const TimersDashboard = React.createClass({
     updateTimer: function (attrs) {
         this.setState({
             timers: this.state.timers.map( (timer) => {
-                if (timer.id === atrs.id) {
+                if (timer.id === attrs.id) {
                     // ES6: Object#assign
                     // We will use Object#assign() frequently throughout this book to create new objects as opposed to modifying existing ones.
                     return Object.assign({}, timer, {
                         title: attrs.title,
-                        project: attr.project
+                        project: attrs.project
                     });
                 } else {
                     return timer;
@@ -231,11 +231,17 @@ const ToggleableTimerForm = React.createClass({
 
 const Timer = React.createClass({
     // stateless
+    componentDidMount: function () {
+        this.forceUpdateInterval = setInterval( () => this.forceUpdate(), 50);
+    },
+    componentWillUnmount: function () {
+        clearInterval(this.forceUpdateInterval);
+    },
     handleTrashClick: function () {
         this.props.onTrashClick(this.props.id);
     },
     render: function () {
-        const elapsedString = helpers.renderElapsedString(this.props.elapsed);
+        const elapsedString = helpers.renderElapsedString(this.props.elapsed, this.props.runningSince);
         return (
             <div className='ui centered card'>
                 <div className='content'>
