@@ -40,5 +40,3 @@ var Data = [
 function generateVoteCount() {
     return 3;
 }
-
-console.log(Data,'data loaded');

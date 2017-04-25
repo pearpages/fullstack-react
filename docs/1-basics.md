@@ -46,3 +46,18 @@ ReactDOM.render([what], [where]);
 
 In React, native HTML elements always start with a lowercase letter whereas React component names always start with an uppercase letter.
 
+## Props
+
+The Product component can’t modify its votes. *this.props* is **immutable**.
+
+## Propagating the event
+
+We can pass down functions as props too.
+
+## ES6: Arrow functions and this
+
+Inside *ProductList*, we use array’s map() method on Data to setup the variable products. We pass an anonymous arrow function to map(). Inside this arrow function, we call *this.handleProductUpVote*. Here, this is bound to the React object.
+
+JavaScript developers have traditionally used workarounds for this behavior, but arrow functions solve the problem by capturing the this value of the enclosing context.
+
+> We will use arrow functions for all anonymous functions.
