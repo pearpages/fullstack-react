@@ -14,6 +14,13 @@ A ReactComponent is a JavaScript object that, at a minimum, has a **render()** f
 
 ---
 
+## References
+
++ https://facebook.github.io/react/docs/top-level-api.html
++ https://facebook.github.io/react/docs/component-api.html
+
+---
+
 ## React Component
 
 React expects the method to return a single child element. It can be a virtual representation of a DOM component or can return the falsy value of null or false. React handles the falsy value by rendering an empty element (a <noscript /> tag). This is used to remove the tag from the page.
@@ -234,3 +241,90 @@ We
 
 + Minimize stateful components
 + We Increase Performance
+
+---
+
+### Talking to Children with props.children
+
+In the Container component, say that we want to add markup around whatever the Article component renders. To do this, we write our JSX in the Container component, and then place this.props.children:
+
++ React.Children.map()
++ React.Children.forEach()
++ React.Children.toArray()
+
+```js
+const Container = React.createClass({
+    propTypes: {
+        // children: React.PropTypes.oneOfType([
+        //     React.PropTypes.element,
+        //     React.PropTypes.array
+        // ])
+        component: React.PropTypes.element.isRequired,
+        children: React.PropTypes.element.isRequired
+    },
+    renderChild: function (childData, index) {
+        return React.createElement(
+            this.props.component,
+            {}, // child props
+            childData // the child's children
+        )
+    },
+    render: function () {
+        return (
+            <div className='container'>
+                {React.children.map( this.props.children, this.renderChild)}
+            </div>
+        )
+    }
+})
+
+ReactDOM.render(
+    <Container />,
+    document.getElementById('content')
+);
+```
+
+---
+
+## Static Methods
+
+Most of what we’ve talked about so far deals with props or state on the particular instance of a component. However, sometimes we want to attach functionality to the “class” of the component that isn’t bound to a particular instance.
+
+```js
+const HomePage = React.createClass({
+    statics: {
+        getPageTitle: function () {
+            return 'Home';
+        }
+    },
+    render: function () {
+        return (<div>Welcome home</div>)
+    }
+});
+
+const AboutPage = React.createClass({
+    statics: {
+        getPageTitle: function () {
+            return 'About';
+        }
+    },
+    render: function () {
+        return (<div>About us</div>)
+    }
+});
+```
+
+Using the statics definition, we can retrieve these page definitions without instantiating either page by calling the getPageTitle() method on the component class.
+
+```js
+// ...
+const currentUrl = window.location.pathname;
+if (currentUrl === '/' ) {
+    page = HomePage;
+} else {
+    page = AboutPage;
+}
+const title = page.getPageTitle();
+// ...
+
+---
