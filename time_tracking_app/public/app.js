@@ -4,22 +4,19 @@ const TimersDashboard = React.createClass({
     // Timer data
     getInitialState: function () {
         return {
-            timers: [
-                {
-                    title: 'Practice squat',
-                    project: 'Gym Chores',
-                    id: uuid.v4(),
-                    elapsed: 5456099,
-                    runningSince: Date.now(),
-                }, {
-                    title: 'Bake squash',
-                    project: 'Kitchen Chores',
-                    id: uuid.v4(),
-                    elapsed: 1273998,
-                    runningSince: null,
-                }
-            ]
+            timers: []
         };
+    },
+    componentDidMount: function () {
+        this.loadTimersFromServer();
+        // We use setInterval() to ensure loadTimersFromServer() is called every 5 seconds. While we will be doing our best to mirror state changes between client and server, this hard-refresh of state from the server will ensure our client will always be correct should it shift from the server.
+        setInterval(this.loadTimersFromServer, 5000);
+    },
+    loadTimersFromServer: function () {
+        // client has been loaded globally
+        client.getTimers( (serverTimers) => (
+            this.setState( {timers: serverTimers})
+        ));
     },
     handleCreateFormSubmit: function (timer) {
         this.createTimer(timer);
