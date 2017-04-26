@@ -14,8 +14,8 @@ const TimersDashboard = React.createClass({
     },
     loadTimersFromServer: function () {
         // client has been loaded globally
-        client.getTimers( (serverTimers) => (
-            this.setState( {timers: serverTimers})
+        client.getTimers((serverTimers) => (
+            this.setState({ timers: serverTimers })
         ));
     },
     handleCreateFormSubmit: function (timer) {
@@ -31,12 +31,16 @@ const TimersDashboard = React.createClass({
         this.setState({
             timers: this.state.timers.filter(t => t.id !== timerId)
         });
+
+        client.deleteTimer({ id: timerId });
     },
     createTimer: function (timer) {
         const t = helpers.newTimer(timer);
         this.setState({
             timers: this.state.timers.concat(t)
         });
+
+        client.createTimer(t);
     },
     handleStartClick: function (timerId) {
         this.startTimer(timerId);
@@ -56,6 +60,11 @@ const TimersDashboard = React.createClass({
                 }
             })
         });
+
+        // What we’re doing here is called optimistic updating. We’re updating the client locally before waiting to hear from the server. This duplicates our state update efforts, as we perform updates on both the client and the server. But it makes our app as responsive as possible.
+        client.startTimer(
+            { id: timerId, start: now }
+        );
     },
     stopTimer: function (timerId) {
         const now = Date.now();
@@ -73,6 +82,10 @@ const TimersDashboard = React.createClass({
                 }
             })
         });
+
+        client.stopTimer(
+            { id: timerId, stop: now }
+        );
     },
     updateTimer: function (attrs) {
         this.setState({
@@ -88,7 +101,9 @@ const TimersDashboard = React.createClass({
                     return timer;
                 }
             })
-        })
+        });
+
+        client.updateTimer(attrs);
     },
     render: function () {
         return (

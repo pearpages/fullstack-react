@@ -27,3 +27,6 @@ If you want to parse and process JSON on the command line, we highly recommend t
 curl -X GET localhost:3000/api/timers | jq '.'
 ```
 
+## optimistic updating
+
+We’re updating the client locally before waiting to hear from the server. This duplicates our state update efforts, as we perform updates on both the client and the server. But it makes our app as responsive as possible.
