@@ -13,6 +13,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Returns a list of all timers.
 app.get('/api/timers', (req, res) => {
     fs.readFile(DATA_FILE, (err, data) => {
         res.setHeader('Cache-Control', 'no-cache');
@@ -20,6 +21,7 @@ app.get('/api/timers', (req, res) => {
     });
 });
 
+// Accepts a JSON body with title, project, and id attributes. Will insert a new timer object into its store.
 app.post('/api/timers', (req, res) => {
     fs.readFile(DATA_FILE, (err, data) => {
         const timers = JSON.parse(data);
@@ -38,6 +40,7 @@ app.post('/api/timers', (req, res) => {
     });
 });
 
+// Accepts a JSON body with the attribute id and start (a timestamp). Hunts through its store and finds the timer with the matching id. Sets its runningSince to start.
 app.post('/api/timers/start', (req, res) => {
     fs.readFile(DATA_FILE, (err, data) => {
         const timers = JSON.parse(data);
@@ -54,6 +57,7 @@ app.post('/api/timers/start', (req, res) => {
     });
 });
 
+// Accepts a JSON body with the attribute id and stop (a timestamp). Hunts through its store and finds the timer with the matching id. Updates elapsed according to how long the timer has been running (stop - runningSince). Sets runningSince to null.
 app.post('/api/timers/stop', (req, res) => {
     fs.readFile(DATA_FILE, (err, data) => {
         const timers = JSON.parse(data);
@@ -72,6 +76,7 @@ app.post('/api/timers/stop', (req, res) => {
     });
 });
 
+// Accepts a JSON body with the attributes id and title and/or project. Hunts through its store and finds the timer with the matching id. Updates title and/or project to new attributes.
 app.put('/api/timers', (req, res) => {
     fs.readFile(DATA_FILE, (err, data) => {
         const timers = JSON.parse(data);
@@ -89,6 +94,7 @@ app.put('/api/timers', (req, res) => {
     });
 });
 
+// Accepts a JSON body with the attribute id. Hunts through its store and deletes the timer with the matching id.
 app.delete('/api/timers', (req, res) => {
     fs.readFile(DATA_FILE, (err, data) => {
         let timers = JSON.parse(data);
