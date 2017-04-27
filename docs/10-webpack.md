@@ -1,5 +1,8 @@
 # Webpack
 
++ Optimization
++ Tooling
+
 In React, we can think of each of our individual components as their own modules. Each component is responsible for some discrete part of our interface. React components might contain their own state or perform complex operations, but the interface for all of them is the same: they accept inputs (props) and output their DOM representation (render). Users of a React component need not know any of the internal details.
 
 Webpack gives us the ability to use npm packages in the browser. We can specify external libraries that we’d like to use in package.json. This is incredibly helpful. Not only do we now have easy access to a vast library of packages. We also get to use npm to manage all the libraries that our app uses. We’ll see in a bit how this all works.
