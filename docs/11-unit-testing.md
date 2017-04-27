@@ -59,3 +59,52 @@ expected = 'customerRespondedAt';
 assertEqual('`camelCase()`: string with spaces', actual, expected);
 
 ```
+
+## Jest
+
+> Facebook created and maintains Jest. For assertions, Jest uses Jasmine’s assertion library.
+
+There are many libraries like:
+
++ Mocha
++ Jasmine
++ QUnit
++ Chai
++ Tape
+
+All testing libraries usually have:
+
++ Test runner
++ A domain-specific language
++ An assertion library
+
+## How-to
+
+As of Jest 15, Jest will consider any file that ends with *.test.js or *.spec.js a test.
+
+Jest’s philosophy to require as little configuration as necessary.
+
++ expect
++ toEqual
++ it
++ describe
+
+```js
+expect(true).toBe(true);
+
+const a = { espresso: '60ml' };
+expect(a).toEqual({ espresso: '60ml' }) // pass
+```
+
+Both describe and it take a string and a function. The string is just a human-friendly description.
+
+```js
+describe('My test suite', () => {
+    it('`true` should be `true`', () => {
+        expect(true).toBe(true);
+    });
+    it('`false` should be `false`', () => {
+        expect(false).toBe(false);
+    });
+});
+```
