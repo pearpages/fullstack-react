@@ -64,6 +64,8 @@ assertEqual('`camelCase()`: string with spaces', actual, expected);
 
 > Facebook created and maintains Jest. For assertions, Jest uses Jasmine’s assertion library.
 
+In a unit test, modules of a software system are tested in isolation.
+
 There are many libraries like:
 
 + Mocha
@@ -107,4 +109,27 @@ describe('My test suite', () => {
         expect(false).toBe(false);
     });
 });
+```
+
+## Testing React Components
+
+1. Given a set of inputs (state & props), assert what a component should output (render).
+2. Given a user action, assert how the component behaves. The component might make a state update or call a prop-function passed to it by a parent.
+
+### Shallow rendering
+
+When a component is shallow rendered, it does not write to a DOM. Instead, it maintains its virtual DOM representation. You can then make assertions against this virtual DOM much like you would an actual one.
+
+Furthermore, your component is rendered only one level deep (hence “shallow”). So if the render function of your component contains children, those children won’t actually be rendered. Instead, the virtual DOM representation will just contain references to the un-rendered child components.
+
+> **ReactTestUtil** React provides a library for shallow rendering React components, ReactTestUtils. This library is useful, but is a bit low-level and can be verbose.
+
+> **Enzyme** is a library that wraps ReactTestUtils, providing lots of handy functionality that is helpful for writing React component tests.
+
+### Enzyme
+
+Enzyme was initially developed by **Airbnb** and is gaining widespread adoption amongst the React open-source community.
+
+```js
+const wrapper = Enzyme.shallow(<App />); // shallow() returns an EnzymeWrapper object.
 ```
