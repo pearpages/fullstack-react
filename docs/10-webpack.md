@@ -42,3 +42,43 @@ The Webpack client maintains an open socket with the server. Whenever the bundle
 npm run build
 ```
 
+### Source maps
+
+[Introduction to JavaScript Source Maps](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/)
+
+## Ejecting
+
+```bash
+npm run ejec
+```
+
+## Concurrenty utility
+
+Concurrently is a utility for running multiple processes.
+
+```bash
+concurrently "npm run server" "cd client && npm start"
+```
+
+```json
+// package.json
+ "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "babel-node start-server.js",
+    "client": "babel-node start-client.js"
+},
+```
+
+### Using the Webpack development proxy
+
+Webpack Proxy for using two servers simultaneously without CORS.
+
+```json
+// Inside client/package.json
+"proxy": "http://localhost:3001/",
+```
+
+> Make sure to add that line to the client’s package.json, not the server’s.
+
+![proxy image](./images/webpack-proxy.png "Webpack Proxy for using two servers simultaneously without CORS")
+
