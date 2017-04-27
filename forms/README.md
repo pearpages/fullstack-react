@@ -1,19 +1,24 @@
-### Fullstack React Forms
+# Voting App
 
-1. Ensure you have `npm` installed.
+## Setup
 
-Follow the instructions for your platform [here](https://github.com/npm/npm).
++ semantic-ui
++ babel-core
 
-2. Install the dependencies
+### Semantic-ui
 
-````
-npm install
-````
+If you are using Semantic UI as a dependency and just want to use our default theme, use our lighter semantic-ui-css or semantic-ui-less repo. If you just need the files you can download them as a zip from GitHub.
 
-3. Boot the app
+https://github.com/Semantic-Org/Semantic-UI-CSS/archive/master.zip
 
-````
+### babel-core
+
+A handy feature of Babel is that it understands JSX.
+
+https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.min.js
+
+## Run
+
+```bash
 npm start
-````
-
-The server is now running - watch the console output for instructions, but by default, your server is now running at [http://192.168.2.18:9966/](http://192.168.2.18:9966/)
+```
