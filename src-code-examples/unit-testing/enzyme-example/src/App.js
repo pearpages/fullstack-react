@@ -67,6 +67,9 @@ class App extends Component {
         <br/>
 
         <table style={{margin:'auto'}}>
+          <thead>
+            <tr><th>Items</th></tr>
+          </thead>
           <tbody>
             {
               this.state.items.map((item, idx) => (
