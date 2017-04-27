@@ -16,7 +16,7 @@ function capitalize(string) {
 function camelCase(string) {
     const words = string.split(/[\s|\-|_]+/);
     return [
-        words[0].toLwerCase(),
+        words[0].toLowerCase(),
         ...words.slice(1).map( (w) => capitalize(w))
     ].join('');
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "Modash.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "babel-node Modash.test.js"
   },
   "author": "",
   "license": "ISC",
