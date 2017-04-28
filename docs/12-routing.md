@@ -294,3 +294,20 @@ class App extends Component {
 export default App;
 ```
 
+## Building Redirect
+
+```js
+class Redirect extends React.Component {
+    static contextTypes = {
+        history: React.PropTypes.object,
+    }
+    componentDidMount() {
+        const history = this.context.history;
+        const to = this.props.to;
+        history.push(to);
+    }
+    render() {
+        return null;
+    }
+}
+```
