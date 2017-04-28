@@ -11,3 +11,7 @@ Then boot both the server and the client with Foreman:
 ```
 $ npm start
 ```
+
+## Components
+
+![Components Image](./help/images/components.png "Components")
