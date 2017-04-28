@@ -4,7 +4,9 @@ import App from './App';
 
 describe('App', function () {
 
-  var wrapper;
+  // Under the hood, the React component re-renders. This is what we’d expect. Therefore, an entirely new virtual DOM object is created with new input and button elements inside. We need to perform a find() to pick out those elements inside the new virtual DOM object, which we do here.
+
+  let wrapper;
 
   beforeEach(() => {
     wrapper = shallow(
@@ -58,6 +60,44 @@ describe('App', function () {
       expect(
         button.props().disabled
       ).toBe(false);
+    });
+
+    describe('and then submits the form', () => {
+
+      beforeEach(() => {
+        const form = wrapper.find('form').first();
+        form.simulate('submit', {
+          preventDefault: () => { },
+        });
+      });
+
+      it('should add the item to state', () => {
+        expect(
+          wrapper.state().items
+        ).toContain(item);
+      });
+
+      it('should render the item in the table', () => {
+        expect(
+          wrapper.containsMatchingElement(
+            <td>{item}</td>)
+        ).toBe(true);
+      });
+
+      it('should clear the input field', () => {
+        const input = wrapper.find('input').first();
+        expect(
+          input.props().value
+        ).toEqual('');
+      });
+
+      it('should disable `button`', () => {
+        const button = wrapper.find('button').first();
+        expect(
+          button.props().disabled
+        ).toBe(true);
+      });
+
     });
 
   });
