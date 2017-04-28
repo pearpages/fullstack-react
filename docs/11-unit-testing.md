@@ -133,3 +133,31 @@ Enzyme was initially developed by **Airbnb** and is gaining widespread adoption 
 ```js
 const wrapper = Enzyme.shallow(<App />); // shallow() returns an EnzymeWrapper object.
 ```
+
+## Mocking with Jest
+
+When writing unit tests, we’ll often find that the module we’re testing depends on other modules in our application. There are multiple strategies for dealing with this, but they mostly center around the idea of a **test double**. A test double is a pretend object that “stands in” for a real one.
+
+But the implementation details of the test double are irrelevant. What’s important is that this test double is mimicking the API returning the same, one-entry result set every time.
+
+```js
+// jest
+const myMockFunction = jest.fn();
+```
+
+When you invoke a vanilla mock function nothing appears to happen. However, what’s special about this function is that it will keep track of invocations. Jest’s mock functions have methods you can use to introspect what happened.
+
+All of the introspective methods for a mock are underneath the property mock. By calling my- Mock.mock.calls, we receive an array of arrays. Each entry in the array corresponds to the arguments of each invocation.
+
+This simple feature unlocks tons of power that we’ll soon witness. We could declare our own Client double, using a Jest mock function:
+
+```js
+const Client = { search: jest.fn(),
+};
+```
+
+But Jest can take care of this for us. Jest has a mock generator for entire modules. By calling this method:
+
+```js
+jest.mock('../src/Client')
+```
