@@ -39,23 +39,73 @@ function reducer(state, action) {
 }
 
 const store = createStore(reducer, { messages: [] });
-store.subscribe(() => console.log(store.getState()));
 
-const action1 = {
-  type: 'ADD_MESSAGE',
-  message: 'Hello John'
-};
+const MessageInput = React.createClass({
+    handleSubmit: function () {
+        store.dispatch({
+            type: 'ADD_MESSAGE',
+            message: this.refs.messageInput.value,
+        });
+        this.refs.messageInput.value = '';
+    },
+    render: function () {
+        return (
+            <div className='ui input'>
+                <input
+                    ref='messageInput'
+                    type='text'
+                >
+                </input>
+                <button
+                    onClick={this.handleSubmit} className='ui primary button' type='submit'
+                >
+                    Submit
+        </button>
+            </div>
+        );
+    },
+});
 
-const action2 = {
-  type: 'ADD_MESSAGE',
-  message: 'Hello Pere'
-};
 
-const action3 = {
-  type: 'DELETE_MESSAGE',
-  index: 1
-};
+const MessageView = React.createClass({
+    handleClick: function (index) {
+        store.dispatch({
+            type: 'DELETE_MESSAGE',
+            index: index,
+        });
+    },
+    render: function () {
+        const messages = this.props.messages.map((message, index) => (
+            <div
+                className='comment'
+                key={index}
+                onClick={() => this.handleClick(index)}
+            >
+            {message}
+            </div>));
+        return (
+            <div className='ui comments'>
+                {messages}
+            </div>);
+    },
+});
 
-store.dispatch(action1);
-store.dispatch(action2);
-store.dispatch(action3);
+
+const App = React.createClass({
+    componentDidMount: function () {
+        store.subscribe(() => this.forceUpdate());
+    },
+    render: function () {
+        const messages = store.getState().messages;
+        return (
+            <div className='ui segment'>
+                <MessageView messages={messages} />
+                <MessageInput />
+            </div>
+        );
+    },
+});
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('content'));

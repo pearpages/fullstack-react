@@ -92,8 +92,14 @@ const action2 = {
   message: 'Hello Pere'
 };
 
+const action3 = {
+  type: 'DELETE_MESSAGE',
+  index: 1
+};
+
 store.dispatch(action1);
 store.dispatch(action2);
+store.dispatch(action3);
 ```
 
 ### Redux with React
