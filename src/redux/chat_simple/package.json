@@ -1,7 +1,6 @@
 {
   "name": "chat_simple",
   "version": "1.0.0",
-  "author": "fullstackreact.com",
   "scripts": {
     "go": "npm run server",
     "server": "http-server ./public -p 3000",
