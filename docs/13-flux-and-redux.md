@@ -96,3 +96,24 @@ store.dispatch(action1);
 store.dispatch(action2);
 ```
 
+### Redux with React
+
+```js
+const App = React.createClass({
+  componentDidMount: function () {
+    store.subscribe(() => this.forceUpdate());
+  },
+  render: function () {
+    const messages = store.getState().messages;
+  }
+});
+
+const Message = React.createClass({
+  handleDeleteClick: function () {
+    store.dispatch({
+      type: 'DELETE_MESSAGE', index: this.props.index,
+    });
+  },
+  // ...
+});
+```
