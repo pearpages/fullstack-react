@@ -43,13 +43,18 @@ function reducer(state, action) {
     return {
       ...state,
       threads: [
-        ...state.threads.slice(0,threadIndex),
+        ...state.threads.slice(0, threadIndex),
         newThread,
         ...state.threads.slice(
           threadIndex + 1, state.threads.length
         )
       ]
     };
+  } else if (action.type === 'OPEN_THREAD') {
+    return {
+      ...state,
+      activeThreadId: action.id
+    }
   } else {
     return state;
   }
@@ -79,11 +84,18 @@ const store = Redux.createStore(reducer, {
 });
 
 const ThreadTabs = React.createClass({
+  handleClick: function (id) {
+    store.dispatch({
+      type: 'OPEN_THREAD',
+      id: id
+    })
+  },
   render: function () {
     const tabs = this.props.tabs.map((tab, index) => (
       <div
         key={index}
         className={tab.active ? 'active item' : 'item'}
+        onClick={() => this.handleClick(tab.id)}
       >
         {tab.title}
       </div>
@@ -108,7 +120,8 @@ const App = React.createClass({
 
     const tabs = threads.map(t => ({ // a 'tab' object
       title: t.title,
-      active: t.id === activeThreadId
+      active: t.id === activeThreadId,
+      id: t.id
     }));
 
     return (
