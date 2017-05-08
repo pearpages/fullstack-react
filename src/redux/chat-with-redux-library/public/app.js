@@ -92,32 +92,14 @@ function messagesReducer(state = [], action) {
 
 const store = Redux.createStore(reducer);
 
-const App = React.createClass({
-  componentDidMount: function () {
-    store.subscribe(() => this.forceUpdate());
-  },
-  render: function () {
-    const state = store.getState();
-    const activeThreadId = state.activeThreadId;
-    const threads = state.threads;
-    const activeThread = threads.find((t) => t.id === activeThreadId);
-
-    const tabs = threads.map(t => (
-      {
-        title: t.title,
-        active: t.id === activeThreadId,
-        id: t.id,
-      }
-    ));
-
-    return (
-      <div className='ui segment'>
-        <ThreadTabs tabs={tabs} />
-        <Thread thread={activeThread} />
-      </div>
-    );
-  },
-});
+const App = function () {
+  return (
+    <div className='ui segment'>
+      <ThreadTabs />
+      <ThreadDisplay />
+    </div>
+  );
+};
 
 const Tabs = (props) => (
   <div className='ui top attached tabular menu'>
@@ -136,10 +118,19 @@ const Tabs = (props) => (
 );
 
 const ThreadTabs = React.createClass({
+  componentDidMount: function () {
+    store.subscribe(() => this.forceUpdate());
+  },
   render: function () {
+    const state = store.getState();
+    const tabs = state.threads.map(t => ({
+      title: t.title,
+      active: t.id === state.activeThreadId,
+      id: t.id
+    }))
     return (
       <Tabs
-        tabs={this.props.tabs}
+        tabs={tabs}
         onClick={(id) => (
           store.dispatch({
             type: 'OPEN_THREAD',
@@ -175,64 +166,68 @@ const TextFieldSubmit = (props) => {
   );
 };
 
-const MessageInput = React.createClass({
-  handleSubmit: function () {
-    store.dispatch({
-      type: 'ADD_MESSAGE',
-      text: this.refs.messageInput.value,
-      threadId: this.props.threadId,
-    });
-    this.refs.messageInput.value = '';
-  },
-  render: function () {
-    return (
-      <div className='ui input'>
-        <input
-          ref='messageInput'
-          type='text'
-        >
-        </input>
-        <button
-          onClick={this.handleSubmit}
-          className='ui primary button'
-          type='submit'
-        >
-          Submit
-        </button>
-      </div>
-    );
-  },
-});
+const MessageList = function (props) {
+  return (
+    <div className='ui components'>
+      {
+        props.messages.map((m, index) => (
+          <div
+            className='comment'
+            key={index}
+            onClick={() => props.onClick(m.id)}
+          >
+            <div className="text">
+              {m.text}
+              <span className="metadata">@{m.timestamp}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  )
+};
 
-const Thread = React.createClass({
-  handleClick: function (id) {
-    store.dispatch({
-      type: 'DELETE_MESSAGE',
-      id: id,
-    });
+const Thread = function (props) {
+  return (
+    <div className='ui center aligned basic segment'>
+      <MessageList
+        messages={props.thread.messages}
+        onClick={props.onMessageClick}
+      />
+      <TextFieldSubmit
+        onSubmit={props.onMessageSubmit}
+      />
+    </div>
+  );
+};
+
+const ThreadDisplay = React.createClass({
+  componentDidMount: function () {
+    store.subscribe(() => this.forceUpdate());
   },
   render: function () {
-    const messages = this.props.thread.messages.map((message, index) => (
-      <div
-        className='comment'
-        key={index}
-        onClick={() => this.handleClick(message.id)}
-      >
-        <div className='text'>
-          {message.text}
-          <span className='metadata'>@{message.timestamp}</span>
-        </div>
-      </div>
-    ));
-    return (
-      <div className='ui center aligned basic segment'>
-        <div className='ui comments'>
-          {messages}
-        </div>
-        <MessageInput threadId={this.props.thread.id} />
-      </div>
+    const state = store.getState();
+    const activeThreadId = state.activeThreadId;
+    const activeThread = state.threads.find(
+      (t) =>  t.id === activeThreadId
     );
-  },
+    return (
+      <Thread
+        thread={activeThread}
+        onMessageClick={(id) => (store.dispatch({
+          type: 'DELETE_MESSAGE',
+          id: id
+        })
+        )}
+        onMessageSubmit={(text) => (store.dispatch({
+          type: 'ADD_MESSAGE',
+          text: text,
+          threadId: activeThreadId,
+          })
+        )}
+        />
+    );
+  }
 });
 
 ReactDOM.render(
